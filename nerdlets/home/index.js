@@ -1,11 +1,8 @@
 import React from 'react';
 import { TableChart, TextField, Select, SelectItem, BlockText } from 'nr1';
 import { Map, CircleMarker, TileLayer } from 'react-leaflet';
-import storeData from './data.json';
-import storeDetails from './store_details.json';
-
-
-const nordstromLogo = "/nordstrom_logo.png"; 
+import storeData from './data.json'; // Store list
+import storeDetails from './store_details.json'; // Store performance data
 
 export default class HomeNerdlet extends React.Component {
   constructor(props) {
@@ -14,7 +11,7 @@ export default class HomeNerdlet extends React.Component {
       searchStoreId: '',
       selectedType: '',
       selectedStore: null,
-      results: storeData.length > 0 ? storeData : [],
+      results: storeData.length > 0 ? storeData : [], // Load store data
     };
   }
 
@@ -22,8 +19,11 @@ export default class HomeNerdlet extends React.Component {
     return healthScore >= 80 ? '#11A600' : healthScore >= 50 ? '#FFD966' : '#BF0016';
   }
 
+  // Fetch store details based on "name" matching storeNumber
   getStoreDetails(storeNumber) {
     if (!storeNumber) return null;
+    
+    // Convert to string for reliable comparison
     const storeNumberStr = String(storeNumber);
     return storeDetails.facets.find((detail) => String(detail.name) === storeNumberStr) || null;
   }
@@ -42,6 +42,7 @@ export default class HomeNerdlet extends React.Component {
     const { searchStoreId, selectedType, selectedStore, results } = this.state;
     const defaultMapCenter = [37.7749, -122.4194];
 
+    // Filter stores based on searchStoreId or selectedType
     const filteredResults = results.filter((store) => {
       const matchesId = searchStoreId ? String(store.storeNumber) === String(searchStoreId) : true;
       const matchesType = selectedType ? store.typeCode === selectedType : true;
@@ -50,12 +51,6 @@ export default class HomeNerdlet extends React.Component {
 
     return (
       <div className="container">
-        {/* Nordstrom Logo */}
-        <div style={{ textAlign: "center", marginBottom: "10px" }}>
-  <img src={nordstromLogo} alt="Nordstrom Logo" style={{ width: "200px" }} />
-</div>
-
-
         {/* Search Box for Store ID */}
         <TextField
           placeholder="Enter Store ID (e.g., 2221)"
@@ -78,7 +73,7 @@ export default class HomeNerdlet extends React.Component {
           <SelectItem value="DC">Distribution Center</SelectItem>
         </Select>
 
-        {/* Display Map */}
+        {/* Display Map with Filtered Store Data */}
         <Map center={defaultMapCenter} zoom={3} style={{ height: "500px", width: "100%" }}>
           <TileLayer
             attribution="&copy OpenStreetMap contributors"
@@ -95,7 +90,7 @@ export default class HomeNerdlet extends React.Component {
           ))}
         </Map>
 
-        {/* Store Details */}
+        {/* Display Store Details */}
         {selectedStore ? (
           <div className="store-details">
             <h3>Store Details</h3>
@@ -106,7 +101,7 @@ export default class HomeNerdlet extends React.Component {
             <p><strong>Customer Footfall:</strong> {selectedStore.customerFootfall}</p>
             <p><strong>Status:</strong> {selectedStore.details ? "Online" : "Offline"}</p>
 
-            {/* Performance Stats */}
+            {/* Display Performance Stats */}
             {selectedStore.details ? (
               <>
                 <h4>Performance Stats</h4>
@@ -121,7 +116,7 @@ export default class HomeNerdlet extends React.Component {
           <BlockText>No store selected. Click on a store marker or search by store number.</BlockText>
         )}
 
-        {/* Store Details Table */}
+        {/* Display Table with Store Details */}
         {selectedStore && selectedStore.details && (
           <TableChart
             accountId={6248776} // Replace with your New Relic Account ID
