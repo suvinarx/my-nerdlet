@@ -1,0 +1,23 @@
+@import '~leaflet/dist/leaflet.css';
+
+.my-nerdlet {
+  
+  width: 100%;
+  height: 99vh;
+  display: flex;
+  flex-direction: column;
+  .row {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+  .chart {
+    height: 250px;
+  }
+}
+
+.containerMap {
+  width: 100%;
+  z-index: 0;
+  height: 70vh;
+}

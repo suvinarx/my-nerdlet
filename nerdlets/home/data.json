@@ -1,0 +1,1062 @@
+[
+    {
+        "storeNumber": "1",
+        "name": "Store 1",
+        "displayName": "Retail Store 1",
+        "typeCode": "DC",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": true,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "0",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Los_Angeles",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "WA",
+            "origStateName": "NEW YORK",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "7626 Main St",
+            "stdzdCityName": "New York",
+            "stdzdCountyName": "King",
+            "stdzdPostalCode": "13748",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -106.431166,
+            "latitude": 48.572743
+        }
+    },
+    {
+        "storeNumber": "2",
+        "name": "Store 2",
+        "displayName": "Retail Store 2",
+        "typeCode": "RE",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "NY",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "1736 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "King",
+            "stdzdPostalCode": "36736",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -122.168669,
+            "latitude": 31.966162
+        }
+    },
+    {
+        "storeNumber": "3",
+        "name": "Store 3",
+        "displayName": "Retail Store 3",
+        "typeCode": "FL",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": true,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "TX",
+            "origStateName": "NEW YORK",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "4318 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "62083",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -95.532392,
+            "latitude": 27.257244
+        }
+    },
+    {
+        "storeNumber": "4",
+        "name": "Store 4",
+        "displayName": "Retail Store 4",
+        "typeCode": "FL",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "CA",
+            "origStateName": "NEW YORK",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "8438 Main St",
+            "stdzdCityName": "Austin",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "18680",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -78.925944,
+            "latitude": 41.892253
+        }
+    },
+    {
+        "storeNumber": "5",
+        "name": "Store 5",
+        "displayName": "Retail Store 5",
+        "typeCode": "FL",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "WA",
+            "origStateName": "TEXAS",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "2149 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "30932",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": true,
+            "longitude": -106.353361,
+            "latitude": 33.730239
+        }
+    },
+    {
+        "storeNumber": "6",
+        "name": "Store 6",
+        "displayName": "Retail Store 6",
+        "typeCode": "RE",
+        "typeDesc": "OUTLET",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "NY",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "198 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "78497",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -86.945764,
+            "latitude": 41.299031
+        }
+    },
+    {
+        "storeNumber": "7",
+        "name": "Store 7",
+        "displayName": "Retail Store 7",
+        "typeCode": "FL",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "NY",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "4835 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "50818",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -111.58057,
+            "latitude": 49.325264
+        }
+    },
+    {
+        "storeNumber": "8",
+        "name": "Store 8",
+        "displayName": "Retail Store 8",
+        "typeCode": "FL",
+        "typeDesc": "RETAIL",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "0",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "WA",
+            "origStateName": "FLORIDA",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "8096 Main St",
+            "stdzdCityName": "New York",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "83744",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-08:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -74.682459,
+            "latitude": 34.253968
+        }
+    },
+    {
+        "storeNumber": "9",
+        "name": "Store 9",
+        "displayName": "Retail Store 9",
+        "typeCode": "FL",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "FL",
+            "origStateName": "FLORIDA",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "3075 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "New York",
+            "stdzdPostalCode": "36641",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": true,
+            "longitude": -78.568277,
+            "latitude": 48.250421
+        }
+    },
+    {
+        "storeNumber": "2221",
+        "name": "Store 10",
+        "displayName": "Retail Store 10",
+        "typeCode": "RK",
+        "typeDesc": "OUTLET",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "WA",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "7660 Main St",
+            "stdzdCityName": "New York",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "15801",
+            "standardTimeZoneAbbrev": "CST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": true,
+            "longitude": -110.908618,
+            "latitude": 40.287843
+        }
+    },
+    {
+        "storeNumber": "11",
+        "name": "Store 11",
+        "displayName": "Retail Store 11",
+        "typeCode": "RK",
+        "typeDesc": "RETAIL",
+        "typeIsSellingStore": true,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "TX",
+            "origStateName": "NEW YORK",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "6714 Main St",
+            "stdzdCityName": "Austin",
+            "stdzdCountyName": "Los Angeles",
+            "stdzdPostalCode": "88657",
+            "standardTimeZoneAbbrev": "CST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -106.951603,
+            "latitude": 28.87604
+        }
+    },
+    {
+        "storeNumber": "12",
+        "name": "Store 12",
+        "displayName": "Retail Store 12",
+        "typeCode": "RK",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "NY",
+            "origStateName": "TEXAS",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "3224 Main St",
+            "stdzdCityName": "Austin",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "58747",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -78.688731,
+            "latitude": 29.859501
+        }
+    },
+    {
+        "storeNumber": "13",
+        "name": "Store 13",
+        "displayName": "Retail Store 13",
+        "typeCode": "RK",
+        "typeDesc": "RETAIL",
+        "typeIsSellingStore": true,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "NY",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "8411 Main St",
+            "stdzdCityName": "New York",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "35945",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": true,
+            "longitude": -120.551987,
+            "latitude": 35.707862
+        }
+    },
+    {
+        "storeNumber": "14",
+        "name": "Store 14",
+        "displayName": "Retail Store 14",
+        "typeCode": "FL",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Los_Angeles",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "FL",
+            "origStateName": "FLORIDA",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "3443 Main St",
+            "stdzdCityName": "Miami",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "69638",
+            "standardTimeZoneAbbrev": "CST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -116.274445,
+            "latitude": 28.004116
+        }
+    },
+    {
+        "storeNumber": "15",
+        "name": "Store 15",
+        "displayName": "Retail Store 15",
+        "typeCode": "FL",
+        "typeDesc": "OUTLET",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/New_York",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "CA",
+            "origStateName": "FLORIDA",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "9927 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "36646",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -90.069849,
+            "latitude": 26.1326
+        }
+    },
+    {
+        "storeNumber": "16",
+        "name": "Store 16",
+        "displayName": "Retail Store 16",
+        "typeCode": "RE",
+        "typeDesc": "OUTLET",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "NP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "0",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "CA",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "9187 Main St",
+            "stdzdCityName": "New York",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "28071",
+            "standardTimeZoneAbbrev": "EST",
+            "standardTimeZoneUTCOffset": "-06:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -117.932481,
+            "latitude": 45.280104
+        }
+    },
+    {
+        "storeNumber": "17",
+        "name": "Store 17",
+        "displayName": "Retail Store 17",
+        "typeCode": "RE",
+        "typeDesc": "MAIN LINE",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": true,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": false,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/Los_Angeles",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "TX",
+            "origStateName": "CALIFORNIA",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "9045 Main St",
+            "stdzdCityName": "New York",
+            "stdzdCountyName": "King",
+            "stdzdPostalCode": "35351",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-05:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -123.720044,
+            "latitude": 45.361712
+        }
+    },
+    {
+        "storeNumber": "18",
+        "name": "Store 18",
+        "displayName": "Retail Store 18",
+        "typeCode": "FL",
+        "typeDesc": "RETAIL",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "1",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Los_Angeles",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "FL",
+            "origStateName": "FLORIDA",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "8967 Main St",
+            "stdzdCityName": "Los Angeles",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "28888",
+            "standardTimeZoneAbbrev": "CST",
+            "standardTimeZoneUTCOffset": "-08:00",
+            "isDaylightSavingsTimeParticipant": true,
+            "longitude": -102.306028,
+            "latitude": 34.300452
+        }
+    },
+    {
+        "storeNumber": "19",
+        "name": "Store 19",
+        "displayName": "Retail Store 19",
+        "typeCode": "RE",
+        "typeDesc": "RETAIL",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": true,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "RETAIL/OFFICE",
+        "ownershipTypeCode": "0",
+        "ownershipTypeDesc": "OWNED",
+        "timeZoneName": "America/Chicago",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "WA",
+            "origStateName": "WASHINGTON",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "8887 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Miami-Dade",
+            "stdzdPostalCode": "76234",
+            "standardTimeZoneAbbrev": "CST",
+            "standardTimeZoneUTCOffset": "-08:00",
+            "isDaylightSavingsTimeParticipant": false,
+            "longitude": -124.403929,
+            "latitude": 47.634549
+        }
+    },
+    {
+        "storeNumber": "20",
+        "name": "Store 20",
+        "displayName": "Retail Store 20",
+        "typeCode": "FL",
+        "typeDesc": "RETAIL",
+        "typeIsSellingStore": false,
+        "typeIsInventoryStore": false,
+        "typeCategoryCode": "SE",
+        "typeCategoryDesc": "SELLING",
+        "compStatusCode": "CP",
+        "compStatusDesc": "NON-COMP",
+        "isStoreOperationalToPublic": false,
+        "isStoreOpenRightNow": true,
+        "locationTypeCode": "R",
+        "locationTypeDesc": "OUTLET",
+        "ownershipTypeCode": "0",
+        "ownershipTypeDesc": "LEASED",
+        "timeZoneName": "America/Los_Angeles",
+        "detailedStoreHours": {
+            "regularWeeklyScheduleDays@Sun6Sat": [
+                {
+                    "dayOfWeekStart@Sun6Sat": 1,
+                    "dayOfWeekEnd@Sun6Sat": 6,
+                    "openAbsoluteTime": "T10:00:00",
+                    "closeAbsoluteTime": "T20:00:00"
+                },
+                {
+                    "dayOfWeekStart@Sun6Sat": 0,
+                    "dayOfWeekEnd@Sun6Sat": 0,
+                    "openAbsoluteTime": "T11:00:00",
+                    "closeAbsoluteTime": "T19:00:00"
+                }
+            ]
+        },
+        "postalAddress": {
+            "origStateCode": "FL",
+            "origStateName": "NEW YORK",
+            "origCountryCode": "US",
+            "origCountryIsoCode": "USA",
+            "origCountryName": "UNITED STATES",
+            "origCountryTelephoneCode": "1",
+            "stdzdLine1Text": "4591 Main St",
+            "stdzdCityName": "Seattle",
+            "stdzdCountyName": "Travis",
+            "stdzdPostalCode": "21130",
+            "standardTimeZoneAbbrev": "PST",
+            "standardTimeZoneUTCOffset": "-08:00",
+            "isDaylightSavingsTimeParticipant": true,
+            "longitude": -82.028717,
+            "latitude": 27.836615
+        }
+    }
+]

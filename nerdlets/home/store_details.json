@@ -1,0 +1,56 @@
+{
+    "eventTypes": ["StoreVHQDeviceSample"],
+    "eventType": "StoreVHQDeviceSample",
+    "openEnded": true,
+    "messages": [
+      {
+        "beginTimeMillis": 1737082475407,
+        "endTimeMillis": 1737086075407,
+        "beginTime": "2025-01-17T02:54:35.352",
+        "endTime": "2025-01-17T03:54:35.352",
+        "guid": "86fe9e6-a21b-1827-1b80-81970e190fc2",
+        "routerGuid": "86fe9fe6-a21b-1827-1b80-81970e19bfc2",
+        "rawSince": "60 MINUTES AGO",
+        "rawUntil": "NOW",
+        "rawCompareWith": ""
+      }
+    ],
+    "facetExpressions": [
+      "tuple('store', CASES (WHERE deviceStatus = 'Active') AS 'Online', WHERE (deviceStatus = 'Inactive') AS 'Offline'))"
+    ],
+    "accounts": {
+      "accountId": 2828326
+    },
+    "facets": [
+      {
+        "name": "12",
+        "online": "Online",
+        "results": {
+          "uniqueCount": 16
+        }
+      },
+      {
+        "name": "12",
+        "offline": "Offline",
+        "results": {
+          "uniqueCount": 6
+        }
+      }
+    ],
+    "totalResult": {
+      "results": {
+        "uniqueCount": 22
+      }
+    },
+    "performanceStats": {
+      "inspectedCount": 32866,
+      "responseTime": 215,
+      "exceedsRetentionWindow": false
+    },
+    "queryUsageRaw": {
+      "inspectedCount": 32866,
+      "scannedEvents": 32866,
+      "ccu": 0.000027147316
+    }
+  }
+  
