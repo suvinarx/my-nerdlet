@@ -1,29 +1,35 @@
-import React from 'react';
-import { TableChart, TextField, Select, SelectItem, BlockText } from 'nr1';
-import { Map, CircleMarker, TileLayer } from 'react-leaflet';
-import storeData from './data.json'; // Store list
-import storeDetails from './store_details.json'; // Store performance data
+import React from "react";
+import { TextField, Select, SelectItem, BlockText, Button } from "nr1";
+import { Map, Marker, TileLayer, Tooltip } from "react-leaflet";
+import L from "leaflet";
+import storeData from "./data.json"; // Store list
+import storeDetails from "./store_details.json"; // Store performance data
+
+// Custom store icons
+import storeIconGreen from './icon/green.png';
+import storeIconRed from './icon/red.png';
+import storeIconYellow from './icon/yellow.png';
+
+const iconGreen = new L.Icon({ iconUrl: storeIconGreen, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
+const iconRed = new L.Icon({ iconUrl: storeIconRed, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
+const iconYellow = new L.Icon({ iconUrl: storeIconYellow, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
 
 export default class HomeNerdlet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchStoreId: '',
-      selectedType: '',
+      searchStoreId: "",
+      selectedType: "",
       selectedStore: null,
-      results: storeData.length > 0 ? storeData : [], // Load store data
+      hoveredStore: null,
+      mousePosition: { x: 0, y: 0 },
+      results: storeData.length > 0 ? storeData : [],
+      filterHealthScore: "",
     };
   }
 
-  getMarkerColor(healthScore) {
-    return healthScore >= 80 ? '#11A600' : healthScore >= 50 ? '#FFD966' : '#BF0016';
-  }
-
-  // Fetch store details based on "name" matching storeNumber
   getStoreDetails(storeNumber) {
     if (!storeNumber) return null;
-    
-    // Convert to string for reliable comparison
     const storeNumberStr = String(storeNumber);
     return storeDetails.facets.find((detail) => String(detail.name) === storeNumberStr) || null;
   }
@@ -38,104 +44,149 @@ export default class HomeNerdlet extends React.Component {
     }
   }
 
+  handleMarkerClick(store) {
+    const dashboardUrl = store.dashboardUrl || `https://newrelic.com/store/${store.storeNumber}`;
+    window.open(dashboardUrl, "_blank"); // Open in a new tab
+  }
+
+  handleMouseOver(store, event) {
+    this.setState({
+      hoveredStore: store,
+      mousePosition: { x: event.clientX, y: event.clientY },
+    });
+  }
+
+  handleMouseOut() {
+    this.setState({ hoveredStore: null });
+  }
+
+  getStoreIcon(percentage) {
+    if (percentage < 50) return iconRed;
+    if (percentage < 80) return iconYellow;
+    return iconGreen;
+  }
+
+  calculatePercentage(store) {
+    const details = this.getStoreDetails(store.storeNumber);
+    const uniqueCount = details?.results?.uniqueCount || 0;
+    const totalCount = details?.totalResult?.uniqueCount || 1; // Prevent division by zero
+    console.log(`Store: ${store.storeNumber}, Unique Count: ${uniqueCount}, Total Count: ${totalCount}`);
+    return (uniqueCount / totalCount) * 100;
+  }
+
   render() {
-    const { searchStoreId, selectedType, selectedStore, results } = this.state;
+    const { searchStoreId, selectedType, selectedStore, hoveredStore, mousePosition, results, filterHealthScore } = this.state;
     const defaultMapCenter = [37.7749, -122.4194];
 
-    // Filter stores based on searchStoreId or selectedType
     const filteredResults = results.filter((store) => {
       const matchesId = searchStoreId ? String(store.storeNumber) === String(searchStoreId) : true;
       const matchesType = selectedType ? store.typeCode === selectedType : true;
-      return matchesId && matchesType;
+      const matchesHealth = filterHealthScore ? store.healthScore >= parseInt(filterHealthScore) : true;
+      return matchesId && matchesType && matchesHealth;
     });
 
     return (
-      <div className="container">
-        {/* Search Box for Store ID */}
-        <TextField
-          placeholder="Enter Store ID (e.g., 2221)"
-          onChange={(event) => this.setState({ searchStoreId: event.target.value.trim() })}
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') this.handleStoreSelection(searchStoreId);
-          }}
-        />
-
-        {/* Store Type Dropdown */}
-        <Select
-          value={selectedType}
-          onChange={(event, value) => this.setState({ selectedType: value })}
-          placeholder="Filter by Store Type"
-        >
-          <SelectItem value="">All Types</SelectItem>
-          <SelectItem value="RE">Retail</SelectItem>
-          <SelectItem value="FL">Full Line</SelectItem>
-          <SelectItem value="RK">Rack</SelectItem>
-          <SelectItem value="DC">Distribution Center</SelectItem>
-        </Select>
-
-        {/* Display Map with Filtered Store Data */}
-        <Map center={defaultMapCenter} zoom={3} style={{ height: "500px", width: "100%" }}>
-          <TileLayer
-            attribution="&copy OpenStreetMap contributors"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      <div className="dashboard-container" style={{ display: "flex", flexDirection: "column" }}>
+        {/* Filters at the Top */}
+        <div className="filters" style={{ display: "flex", padding: "10px", borderBottom: "1px solid #ccc" }}>
+          <TextField
+            placeholder="Enter Store ID (e.g., 2221)"
+            onChange={(event) => this.setState({ searchStoreId: event.target.value.trim() })}
           />
-          {filteredResults.map((store, i) => (
-            <CircleMarker
-              key={i}
-              center={[store.postalAddress.latitude, store.postalAddress.longitude]}
-              color={this.getMarkerColor(store.healthScore)}
-              radius={5}
-              onClick={() => this.handleStoreSelection(store.storeNumber)}
-            />
-          ))}
-        </Map>
+          <Select
+            value={selectedType}
+            onChange={(event, value) => this.setState({ selectedType: value })}
+            placeholder="Filter by Store Type"
+          >
+            <SelectItem value="">All Types</SelectItem>
+            <SelectItem value="RE">Retail</SelectItem>
+            <SelectItem value="FL">Full Line</SelectItem>
+            <SelectItem value="RK">Rack</SelectItem>
+            <SelectItem value="DC">Distribution Center</SelectItem>
+          </Select>
+          <Select
+            value={filterHealthScore}
+            onChange={(event, value) => this.setState({ filterHealthScore: value })}
+            placeholder="Filter by Health Score"
+          >
+            <SelectItem value="">All Scores</SelectItem>
+            <SelectItem value="80">80 and above</SelectItem>
+            <SelectItem value="50">50 and above</SelectItem>
+            <SelectItem value="30">30 and above</SelectItem>
+          </Select>
+        </div>
 
-        {/* Display Store Details */}
-        {selectedStore ? (
-          <div className="store-details">
-            <h3>Store Details</h3>
-            <p><strong>Store Number:</strong> {selectedStore.storeNumber}</p>
-            <p><strong>Name:</strong> {selectedStore.name}</p>
-            <p><strong>Type:</strong> {selectedStore.typeDesc}</p>
-            <p><strong>Health Score:</strong> {selectedStore.healthScore}</p>
-            <p><strong>Customer Footfall:</strong> {selectedStore.customerFootfall}</p>
-            <p><strong>Status:</strong> {selectedStore.details ? "Online" : "Offline"}</p>
+        <div style={{ display: "flex", flex: 1 }}>
+          {/* Sidebar */}
+          <div className="sidebar" style={{ width: "300px", padding: "10px", borderRight: "1px solid #ccc" }}>
+            <h2>Store Overview</h2>
+            {filteredResults.map((store, i) => (
+              <div key={i} style={{ margin: "10px 0", padding: "10px", border: "1px solid #eee", borderRadius: "5px" }}>
+                <strong>{store.name}</strong>
+                <p>Store #: {store.storeNumber}</p>
+                <p>Type: {store.typeDesc}</p>
+                <p>Health: {store.healthScore}</p>
+              </div>
+            ))}
+          </div>
 
-            {/* Display Performance Stats */}
-            {selectedStore.details ? (
-              <>
-                <h4>Performance Stats</h4>
-                <p><strong>Inspected Count:</strong> {selectedStore.details.results?.uniqueCount || 'N/A'}</p>
-                <p><strong>Response Time:</strong> {selectedStore.details.performanceStats?.responseTime || 'N/A'} ms</p>
-              </>
+          {/* Map */}
+          <div style={{ flex: 1 }}>
+            <Map center={defaultMapCenter} zoom={3} style={{ height: "100vh", width: "100%" }}>
+              <TileLayer
+                attribution="&copy OpenStreetMap contributors"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {filteredResults.map((store, i) => {
+                const percentage = this.calculatePercentage(store);
+                const icon = this.getStoreIcon(percentage);
+
+                return (
+                  <Marker
+                    key={i}
+                    position={[store.postalAddress.latitude, store.postalAddress.longitude]}
+                    icon={icon}
+                    eventHandlers={{
+                      click: () => this.handleMarkerClick(store),
+                      mouseover: (event) => this.handleMouseOver(store, event),
+                      mouseout: () => this.handleMouseOut(),
+                    }}
+                  >
+                    <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
+                      <div>
+                        <strong>{store.name}</strong>
+                        <br />
+                        Store Number: {store.storeNumber}
+                        <br />
+                        Health Score: {store.healthScore}
+                        <br />
+                        Type: {store.typeDesc}
+                        <br />
+                        Uptime: {percentage.toFixed(2)}%
+                      </div>
+                    </Tooltip>
+                  </Marker>
+                );
+              })}
+            </Map>
+          </div>
+
+          {/* Metrics Panel */}
+          <div className="metrics-panel" style={{ width: "300px", padding: "10px", borderLeft: "1px solid #ccc" }}>
+            <h2>Performance Metrics</h2>
+            {selectedStore ? (
+              <div>
+                <p><strong>Store:</strong> {selectedStore.name}</p>
+                <p><strong>Health Score:</strong> {selectedStore.healthScore}</p>
+                <p><strong>Customer Footfall:</strong> {selectedStore.customerFootfall || 'N/A'}</p>
+                <p><strong>Response Time:</strong> {selectedStore.details?.performanceStats?.responseTime || 'N/A'} ms</p>
+                <p><strong>Incident Count:</strong> {selectedStore.details?.results?.uniqueCount || 0}</p>
+              </div>
             ) : (
-              <BlockText>No performance data available for this store.</BlockText>
+              <BlockText>No store selected. Click on a store marker to view details.</BlockText>
             )}
           </div>
-        ) : (
-          <BlockText>No store selected. Click on a store marker or search by store number.</BlockText>
-        )}
-
-        {/* Display Table with Store Details */}
-        {selectedStore && selectedStore.details && (
-          <TableChart
-            accountId={6248776} // Replace with your New Relic Account ID
-            query={`
-              FROM StoreHealth 
-              SELECT 
-                sum(totalSales) AS 'Total Sales', 
-                average(healthScore) AS 'Health Score', 
-                sum(customerFootfall) AS 'Customer Footfall', 
-                latest(responseTime) AS 'Response Time', 
-                latest(inspectedCount) AS 'Inspected Count'
-              WHERE name = '${selectedStore.storeNumber}'
-              FACET name 
-              SINCE 1 week ago 
-              LIMIT 100
-            `}
-            fullWidth
-          />
-        )}
+        </div>
       </div>
     );
   }
