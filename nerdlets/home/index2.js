@@ -63,17 +63,38 @@ export default class HomeNerdlet extends React.Component {
   }
 
   getStoreIcon(percentage) {
-    if (percentage < 50) return iconRed;
-    if (percentage < 80) return iconYellow;
-    return iconGreen;
+    if (percentage >= 80) {
+      return iconGreen;  // Green for percentages >= 80
+    } else if (percentage >= 50) {
+      return iconYellow; // Yellow for percentages between 50 and 79
+    } else {
+      return iconRed;    // Red for percentages below 50
+    }
   }
 
   calculatePercentage(store) {
-    const details = this.getStoreDetails(store.storeNumber);
-    const uniqueCount = details?.results?.uniqueCount || 0;
-    const totalCount = details?.totalResult?.uniqueCount || 1;
-    return (uniqueCount / totalCount) * 100;
-  }
+    const details = this.getStoreDetails(store); // Ensure this gets the correct store data
+    if (!details || !details.facets) return 0; // Handle the case where details or facets are missing
+    
+    let onlineCount = 0;
+    let offlineCount = 0;
+
+    // Sum the counts based on the presence of online/offline attributes
+    details.facets.forEach((facet) => {
+      if (facet.online === "Online") {
+        onlineCount += facet.results.uniqueCount; // Add to the online count
+      } else if (facet.offline === "Offline") {
+        offlineCount += facet.results.uniqueCount; // Add to the offline count
+      }
+    });
+    const totalCount = onlineCount + offlineCount;
+
+    // Log the total count for debugging
+    console.log('Total Count:', totalCount);
+
+    // Calculate and return the percentage
+    return totalCount > 0 ? (onlineCount / totalCount) * 100 : 0;
+}
 
   fetchPerformanceMetrics(storeNumber) {
     const query = `SELECT average(duration) as 'Response Time', count(*) as 'Incident Count' 
@@ -153,7 +174,8 @@ export default class HomeNerdlet extends React.Component {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {filteredResults.map((store, i) => {
-                const percentage = this.calculatePercentage(store);
+                // const percentage = this.calculatePercentage(store);
+                const percentage = 72;
                 const icon = this.getStoreIcon(percentage);
 
                 return (
