@@ -1,12 +1,13 @@
+import L from "leaflet";
 import React from "react";
-import { TextField, Select, SelectItem, BlockText, TableChart, NerdGraphQuery, NrqlQuery } from "nr1";
-import { Map, Marker, TileLayer, Tooltip } from "react-leaflet";
 import storeData from "./data.json"; // Store list
 import storeDetails from "./store_details.json"; // Store performance data
+import { Map, Marker, TileLayer, Tooltip } from "react-leaflet";
+import { TextField, Select, SelectItem, BlockText, TableChart, NerdGraphQuery, NrqlQuery } from "nr1";
+
 // Custom store icons
-import L from "leaflet";
-import storeIconGreen from '../icon/green.png';
 import storeIconRed from '../icon/red.png';
+import storeIconGreen from '../icon/green.png';
 import storeIconYellow from '../icon/yellow.png';
 
 const iconGreen = new L.Icon({ iconUrl: storeIconGreen, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
@@ -26,7 +27,7 @@ export default class HomeNerdlet extends React.Component {
             filtered: props.mapLocations || [],
             filterHealthScore: '',
             nrqlData: null,
-            storesData: [], // New state for processed store data
+            storesData: storeData.length > 0 ? storeData : [], // New state for processed store data
         };
     }
 
@@ -91,7 +92,7 @@ export default class HomeNerdlet extends React.Component {
     }
 
     handleStoreSelection = async (storeNumber) => {
-        const store = this.state.results.find((s) => String(s.storeNumber) === String(storeNumber));
+        const store = this.state.storesData.find((s) => String(s.storeNumber) === String(storeNumber));
         if (store) {
             const details = this.getStoreDetails(storeNumber);
             this.setState({ selectedStore: { ...store, details } });
