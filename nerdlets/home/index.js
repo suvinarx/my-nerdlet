@@ -6,9 +6,9 @@ import storeData from "./data.json"; // Store list
 import storeDetails from "./store_details.json"; // Store performance data
 
 // Custom store icons
-import storeIconGreen from './icon/green.png';
-import storeIconRed from './icon/red.png';
-import storeIconYellow from './icon/yellow.png';
+import storeIconGreen from '../icon/green.png';
+import storeIconRed from '../icon/red.png';
+import storeIconYellow from '../icon/yellow.png';
 
 const iconGreen = new L.Icon({ iconUrl: storeIconGreen, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
 const iconRed = new L.Icon({ iconUrl: storeIconRed, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
@@ -25,13 +25,60 @@ export default class HomeNerdlet extends React.Component {
       mousePosition: { x: 0, y: 0 },
       results: storeData.length > 0 ? storeData : [],
       filterHealthScore: "",
+      storesData: [], // New state for processed store data
     };
   }
 
-  getStoreDetails(storeNumber) {
-    if (!storeNumber) return null;
-    const storeNumberStr = String(storeNumber);
-    return storeDetails.facets.find((detail) => String(detail.name) === storeNumberStr) || null;
+  componentDidMount() {
+    const updatedData = this.calculateStoreUptime(storeData, storeDetails.facets);
+    this.setState({ storesData: updatedData });
+  }
+
+  calculateStoreUptime(stores, facetsData) {
+    // Create a map of store numbers to their uptime percentages
+    const uptimeMap = {};
+
+    // Group facets by store number and calculate percentages
+    facetsData.forEach(facet => {
+      const storeNumber = facet.name;
+
+      if (!uptimeMap[storeNumber]) {
+        uptimeMap[storeNumber] = {
+          online: 0,
+          offline: 0
+        };
+      }
+
+      if (facet.online === "Online") {
+        uptimeMap[storeNumber].online = facet.results.uniqueCount;
+      } else if (facet.offline === "Offline") {
+        uptimeMap[storeNumber].offline = facet.results.uniqueCount;
+      }
+    });
+
+    // Calculate uptime percentage and add to store data
+    const updatedStores = stores.map(store => {
+      const storeStats = uptimeMap[store.storeNumber];
+      let uptimePercentage = 0;
+
+      if (storeStats) {
+        const total = storeStats.online + storeStats.offline;
+        uptimePercentage = total > 0 ? (storeStats.online / total) * 100 : 0;
+      }
+
+      return {
+        ...store,
+        uptimePercentage: parseFloat(uptimePercentage.toFixed(2)),
+        storeIcon: this.getStoreIcon(parseFloat(uptimePercentage.toFixed(2)))
+      };
+    });
+    return updatedStores;
+  }
+
+  getStoreIcon(percentage) {
+    if (percentage <= 40) return iconRed;
+    if (percentage <= 80) return iconYellow;
+    return iconGreen;
   }
 
   handleStoreSelection(storeNumber) {
@@ -60,22 +107,14 @@ export default class HomeNerdlet extends React.Component {
     this.setState({ hoveredStore: null });
   }
 
-  getStoreIcon(percentage) {
-    if (percentage < 50) return iconRed;
-    if (percentage < 80) return iconYellow;
-    return iconGreen;
-  }
-
-  calculatePercentage(store) {
-    const details = this.getStoreDetails(store.storeNumber);
-    const uniqueCount = details?.results?.uniqueCount || 0;
-    const totalCount = details?.totalResult?.uniqueCount || 1; // Prevent division by zero
-    console.log(`Store: ${store.storeNumber}, Unique Count: ${uniqueCount}, Total Count: ${totalCount}`);
-    return (uniqueCount / totalCount) * 100;
+  getStoreDetails(storeNumber) {
+    if (!storeNumber) return null;
+    const storeNumberStr = String(storeNumber);
+    return storeDetails.facets.find((detail) => String(detail.name) === storeNumberStr) || null;
   }
 
   render() {
-    const { searchStoreId, selectedType, selectedStore, hoveredStore, mousePosition, results, filterHealthScore } = this.state;
+    const { searchStoreId, selectedType, selectedStore, hoveredStore, mousePosition, results, filterHealthScore, storesData } = this.state;
     const defaultMapCenter = [37.7749, -122.4194];
 
     const filteredResults = results.filter((store) => {
@@ -126,6 +165,7 @@ export default class HomeNerdlet extends React.Component {
                 <p>Store #: {store.storeNumber}</p>
                 <p>Type: {store.typeDesc}</p>
                 <p>Health: {store.healthScore}</p>
+                <p>Uptime: {store.uptimePercentage || 0}%</p>
               </div>
             ))}
           </div>
@@ -137,37 +177,32 @@ export default class HomeNerdlet extends React.Component {
                 attribution="&copy OpenStreetMap contributors"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {filteredResults.map((store, i) => {
-                const percentage = this.calculatePercentage(store);
-                const icon = this.getStoreIcon(percentage);
-
-                return (
-                  <Marker
-                    key={i}
-                    position={[store.postalAddress.latitude, store.postalAddress.longitude]}
-                    icon={icon}
-                    eventHandlers={{
-                      click: () => this.handleMarkerClick(store),
-                      mouseover: (event) => this.handleMouseOver(store, event),
-                      mouseout: () => this.handleMouseOut(),
-                    }}
-                  >
-                    <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
-                      <div>
-                        <strong>{store.name}</strong>
-                        <br />
-                        Store Number: {store.storeNumber}
-                        <br />
-                        Health Score: {store.healthScore}
-                        <br />
-                        Type: {store.typeDesc}
-                        <br />
-                        Uptime: {percentage.toFixed(2)}%
-                      </div>
-                    </Tooltip>
-                  </Marker>
-                );
-              })}
+              {storesData.map((store, i) => (
+                <Marker
+                  key={i}
+                  position={[store.postalAddress.latitude, store.postalAddress.longitude]}
+                  icon={store.storeIcon}
+                  eventHandlers={{
+                    click: () => this.handleMarkerClick(store),
+                    mouseover: (event) => this.handleMouseOver(store, event),
+                    mouseout: () => this.handleMouseOut(),
+                  }}
+                >
+                  <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
+                    <div>
+                      <strong>{store.name}</strong>
+                      <br />
+                      Store Number: {store.storeNumber}
+                      <br />
+                      Health Score: {store.healthScore}
+                      <br />
+                      Type: {store.typeDesc}
+                      <br />
+                      Uptime: {store.uptimePercentage}%
+                    </div>
+                  </Tooltip>
+                </Marker>
+              ))}
             </Map>
           </div>
 
@@ -181,6 +216,7 @@ export default class HomeNerdlet extends React.Component {
                 <p><strong>Customer Footfall:</strong> {selectedStore.customerFootfall || 'N/A'}</p>
                 <p><strong>Response Time:</strong> {selectedStore.details?.performanceStats?.responseTime || 'N/A'} ms</p>
                 <p><strong>Incident Count:</strong> {selectedStore.details?.results?.uniqueCount || 0}</p>
+                <p><strong>Uptime:</strong> {selectedStore.uptimePercentage || 0}%</p>
               </div>
             ) : (
               <BlockText>No store selected. Click on a store marker to view details.</BlockText>
