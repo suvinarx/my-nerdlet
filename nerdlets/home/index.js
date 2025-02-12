@@ -74,7 +74,6 @@ export default class HomeNerdlet extends React.Component {
                 storeIcon: this.getStoreIcon(parseFloat(uptimePercentage.toFixed(2)))
             };
         });
-        console.log('updatedStores', updatedStores);
         return updatedStores;
     }
 
@@ -232,7 +231,7 @@ export default class HomeNerdlet extends React.Component {
                                             <div>
                                                 <strong>{store?.name}</strong>                          <br />
                                                 Store #: {store?.storeNumber}                           <br />
-                                                POS Availabilty: {store?.uptimePercentage.toFixed(2)}%
+                                                POS Availabilty: {store?.uptimePercentage}%
                                             </div>
                                         </Tooltip>
                                     </Marker>
