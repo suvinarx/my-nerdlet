@@ -130,7 +130,7 @@ export default class HomeNerdlet extends React.Component {
   }
 
   handleMarkerClick(store) {
-    const dashboardUrl = store.dashboardUrl || `https://one.newrelic.com/dashboards/detail/MzgxNDgyOXxWSVp8REFTSEJPQVJEfGRhOjU3Njk4Mjc`;
+    const dashboardUrl = store.dashboardUrl || `https://one.newrelic.com/dashboards/detail/MzgxNDgyOXxWSVp8REFTSEJPQVJc`;
     const variables = {
       "name": "select_site_name",
       "items": null,
