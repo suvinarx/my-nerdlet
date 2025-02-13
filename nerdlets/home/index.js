@@ -9,6 +9,7 @@ import { TextField, Select, SelectItem, BlockText, TableChart, NerdGraphQuery, N
 import storeIconRed from '../icon/red.png';
 import storeIconGreen from '../icon/green.png';
 import storeIconYellow from '../icon/yellow.png';
+import PerformanceMetrics from "../components/PerformanceMetrics";
 
 const iconGreen = new L.Icon({ iconUrl: storeIconGreen, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
 const iconRed = new L.Icon({ iconUrl: storeIconRed, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
@@ -195,11 +196,15 @@ export default class HomeNerdlet extends React.Component {
                 </div>
 
                 <div style={{ display: "flex", flex: 1 }}>
-                    {/* Sidebar */}
-                    <div className="sidebar" style={{  padding: "10px", borderRight: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
+                    { /* Sidebar */}
+                    <div className="sidebar" style={{ padding: "10px", borderRight: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
                         <h3>Store Overview</h3>
                         {filteredResults.map((store, i) => (
-                            <div key={i} style={{ margin: "10px 0", padding: "10px", border: "1px solid #eee", borderRadius: "5px" }}>
+                            <div
+                                key={i}
+                                onClick={() => { this.setState({ selectedStore: store }) }}
+                                style={{ margin: "10px 0", padding: "10px", border: `1px solid ${selectedStore && selectedStore.storeNumber === store.storeNumber ? '#007bff' : '#eee'}`, borderRadius: "5px" }}
+                            >
                                 <strong>{store.name}</strong>
                                 <p><strong>Store #:</strong> {store.storeNumber}</p>
                                 <p><strong>Type:</strong> {store.typeDesc}</p>
@@ -240,26 +245,7 @@ export default class HomeNerdlet extends React.Component {
                         </Map>
                     </div>
 
-                    {/* Display Store Details */}
-                    <div className="metrics-panel" style={{  padding: "10px", borderLeft: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
-                        <h2>Performance Metrics</h2>
-                        
-                        {/* TODO: */}
-                        {/* Pie Chart */}
-                        
-
-
-                        {/* Display Table with Store Details */}
-                        {selectedStore && selectedStore.details && (
-                            <div>
-                                <h3>Online percentage: {this.calculatePercentage(storeNumber).toFixed(2)}%</h3>
-                                <TableChart
-                                    accountId={2828326} // Replace with your New Relic Account ID
-                                    query={`from StoreVHQDeviceSample SELECT uniqueCount(serialNumber) AS 'POS' WHERE name ='${selectedStore.storeNumber}' FACET name,deviceStatus CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX`}
-                                />
-                            </div>
-                        )}
-                    </div>
+                    <PerformanceMetrics selectedStore={selectedStore} />
 
                     {/* Hovered Store Details */}
                     {hoveredStore && (
