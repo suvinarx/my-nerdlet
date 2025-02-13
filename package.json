@@ -20,5 +20,8 @@
         "last 2 versions",
         "not ie < 11",
         "not dead"
-    ]
+    ],
+    "devDependencies": {
+        "@types/react": "^19.0.8"
+    }
 }
