@@ -1,4 +1,4 @@
-import L from "leaflet";
+import L, { Browser } from "leaflet";
 import React from "react";
 import storeData from "./data.json"; // Store list
 import storeDetails from "./store_details.json"; // Store performance data
@@ -196,12 +196,12 @@ export default class HomeNerdlet extends React.Component {
 
                 <div style={{ display: "flex", flex: 1 }}>
                     {/* Sidebar */}
-                    <div className="sidebar" style={{ width: "170px", padding: "10px", borderRight: "10px solid #cc" }}>
+                    <div className="sidebar" style={{  padding: "10px", borderRight: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
                         <h3>Store Overview</h3>
                         {filteredResults.map((store, i) => (
                             <div key={i} style={{ margin: "10px 0", padding: "10px", border: "1px solid #eee", borderRadius: "5px" }}>
                                 <strong>{store.name}</strong>
-                                <p><strong>Store #:</strong>{store.storeNumber}</p>
+                                <p><strong>Store #:</strong> {store.storeNumber}</p>
                                 <p><strong>Type:</strong> {store.typeDesc}</p>
                                 <p><strong>Address:</strong> {store.postalAddress.stdzdLine1Text}, {store.postalAddress.stdzdCityName}, {store.postalAddress.origStateCode}</p>
                             </div>
@@ -229,8 +229,8 @@ export default class HomeNerdlet extends React.Component {
                                     >
                                         <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
                                             <div>
-                                                <strong>{store?.name}</strong>                          <br />
-                                                Store #: {store?.storeNumber}                           <br />
+                                                <strong>{store?.name}</strong> <br />
+                                                Store #: {store?.storeNumber} <br />
                                                 POS Availabilty: {store?.uptimePercentage}%
                                             </div>
                                         </Tooltip>
@@ -239,9 +239,9 @@ export default class HomeNerdlet extends React.Component {
                             }
                         </Map>
                     </div>
-                    
+
                     {/* Display Store Details */}
-                    <div className="metrics-panel" style={{ width: "300px", padding: "10px", borderLeft: "1px solid #ccc" }}>
+                    <div className="metrics-panel" style={{  padding: "10px", borderLeft: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
                         <h2>Performance Metrics</h2>
                         {selectedStore ? (
                             <div className="store-details">
@@ -267,7 +267,6 @@ export default class HomeNerdlet extends React.Component {
                         ) : (
                             <BlockText>No store selected. Click on a store marker or search by store number.</BlockText>
                         )}
-
 
                         {/* Display Table with Store Details */}
                         {selectedStore && selectedStore.details && (
