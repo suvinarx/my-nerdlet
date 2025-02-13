@@ -23,17 +23,31 @@
     },
     "facets": [
       {
-        "name": "12",
+        "name": "1",
         "online": "Online",
         "results": {
-          "uniqueCount": 16
+          "uniqueCount": 100
         }
       },
       {
-        "name": "12",
+        "name": "1",
         "offline": "Offline",
         "results": {
-          "uniqueCount": 6
+          "uniqueCount": 100
+        }
+      },
+      {
+        "name": "2",
+        "online": "Online",
+        "results": {
+          "uniqueCount": 100
+        }
+      },
+      {
+        "name": "2",
+        "offline": "Offline",
+        "results": {
+          "uniqueCount": 10
         }
       }
     ],
