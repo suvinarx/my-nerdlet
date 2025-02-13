@@ -102,7 +102,7 @@ export default class HomeNerdlet extends React.Component {
     const nrqlQuery = `{
       actor {
         account(id: 2828326) {
-          nrql(query: "FROM StoreVHQDeviceSample SELECT uniqueCount(serialNumber) AS 'POS' WHERE store ='${storeNumber}' FACET store CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX") {
+          nrql(query: "FROM StoreVHQDeviceSample SELECT uniqueCount(serialNumber) AS 'POS' WHERE store ='${storeNumber}' FACET store, CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX") {
             results
           }
         }
