@@ -1,153 +1,53 @@
-import L from "leaflet";
 import React from "react";
-import storeData from "./data.json"; // Store list
-import storeDetails from "./store_details1.json"; // Store performance data
+import { TextField, Select, SelectItem, BlockText, NrqlQuery, Button } from "nr1";
 import { Map, Marker, TileLayer, Tooltip } from "react-leaflet";
-import { TextField, Select, SelectItem, BlockText, TableChart, NerdGraphQuery, NrqlQuery } from "nr1";
+import L from "leaflet";
+import storeData from "./data.json"; // Store list
+import storeDetails from "./store_details.json"; // Store performance data
 
-// Custom store icons
 import storeIconGreen from './icon/green.png';
 import storeIconRed from './icon/red.png';
 import storeIconYellow from './icon/yellow.png';
-//import storeIconBlack from './icon/black.png';
 
-const iconGreen = new L.Icon({ iconUrl: storeIconGreen, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
-const iconRed = new L.Icon({ iconUrl: storeIconRed, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
-const iconYellow = new L.Icon({ iconUrl: storeIconYellow, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
-//const iconBlack = new L.Icon({ iconUrl: storeIconBlack, iconSize: [20, 20], iconAnchor: [15, 20], popupAnchor: [0, -20] });
+const iconGreen = new L.Icon({ iconUrl: storeIconGreen, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
+const iconRed = new L.Icon({ iconUrl: storeIconRed, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
+const iconYellow = new L.Icon({ iconUrl: storeIconYellow, iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -30] });
 
 export default class HomeNerdlet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchStoreId: '',
-      selectedType: '',
+      searchStoreId: "",
+      selectedType: "",
       selectedStore: null,
       hoveredStore: null,
       mousePosition: { x: 0, y: 0 },
       results: storeData.length > 0 ? storeData : [],
-      filtered: props.mapLocations || [],
+      filterHealthScore: "",
       nrqlData: null,
-      storesData: storeData.length > 0 ? storeData : [], // New state for processed store data
     };
   }
 
-  componentDidMount() {
-    const updatedData = this.calculateStoreUptime(storeData, storeDetails.facets);
-    this.setState({ storesData: updatedData });
-  }
-
-  calculateStoreUptime(stores, facetsData) {
-    // Create a map of store numbers to their uptime percentages
-    const uptimeMap = {};
-
-    // Group facets by store number and calculate percentages
-    facetsData.forEach(facet => {
-      const storeNumber = facet.name[0];
-      const status = facet.name[2];
-      const uniqueCount = facet.results[0]?.uniqueCount || 0;
-
-      if (!uptimeMap[storeNumber]) {
-        uptimeMap[storeNumber] = {
-          online: 0,
-          offline: 0
-        };
-      }
-
-      if (status === "Online") {
-        uptimeMap[storeNumber].online = uniqueCount;
-      } else if (status === "Offline") {
-        uptimeMap[storeNumber].offline =uniqueCount;
-      }
-    });
-
-    // Calculate uptime percentage and add to store data
-    const updatedStores = stores.map(store => {
-      const storeStats = uptimeMap[store.storeNumber] || {online:0, offline:0};
-      let uptimePercentage = 0;
-
-      if (storeStats) {
-        const total = storeStats.online + storeStats.offline;
-        uptimePercentage = total > 0 ? (storeStats.online / total) * 100 : 0;
-      }
-
-      return {
-        ...store,
-        uptimePercentage: parseFloat(uptimePercentage.toFixed(2)),
-        storeIcon: this.getStoreIcon(parseFloat(uptimePercentage.toFixed(2)))
-      };
-    });
-
-    return updatedStores;
-  }
-
-  getStoreIcon(percentage) {
-   // if (percentage === 0) return iconBlack;
-    if (percentage <= 50) return iconRed;
-    if (percentage <= 80) return iconYellow;
-    return iconGreen;
-  }
-
-  //data from json file
   getStoreDetails(storeNumber) {
     if (!storeNumber) return null;
     const storeNumberStr = String(storeNumber);
     return storeDetails.facets.find((detail) => String(detail.name) === storeNumberStr) || null;
   }
 
-  //pos data from nrql query
-  async getStoreDetailsFromQuery (storeNumber) {
-    if (!storeNumber) return null;
-    const storeNumberStr = String(storeNumber);
-    const nrqlQuery = `{
-      actor {
-        account(id: 2828326) {
-          nrql(query: "FROM StoreVHQDeviceSample SELECT uniqueCount(serialNumber) AS 'POS' WHERE store ='${storeNumber}' FACET store, CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX") {
-            results
-          }
-        }
-      }
-    }`;
-
-    try {
-      const response = await NerdGraphQuery.query({ query: nrqlQuery });
-      const details = response.data.actor.account.nrql.results || [];
-
-      this.setState({ selectedStore: { ...this.state.selectedStore, details } });
-    } catch (error) {
-      console.error("Error fetching store details:", error);
-    }
-  }
-
-  handleStoreSelection = async (storeNumber) => {
-    const store = this.state.storesData.find((s) => String(s.storeNumber) === String(storeNumber));
+  handleStoreSelection(storeNumber) {
+    const store = this.state.results.find((s) => String(s.storeNumber) === String(storeNumber));
     if (store) {
       const details = this.getStoreDetails(storeNumber);
-      this.setState({ selectedStore: { ...store, details } });
+      this.setState({ selectedStore: { ...store, details } }, () => {
+        this.fetchPerformanceMetrics(storeNumber); // Fetch NRQL data
+      });
     } else {
-      this.setState({ selectedStore: null });
+      this.setState({ selectedStore: null, nrqlData: null });
     }
   }
 
   handleMarkerClick(store) {
-    const dashboardUrl = store.dashboardUrl || `https://one.newrelic.com/dashboards/detail/MzgxNDgyOXxWSVp8REFTSEJPQVJc`;
-    const variables = {
-      "name": "select_site_name",
-      "items": null,
-      "defaultValues": [
-        {
-          "value": {
-            "string": "1"
-          }
-        }
-      ]
-    };
-
-    // Dynamically construct variables ONLY using variables_all
-    const constructedVariables = { [variables.name]: variables.defaultValues[0].value.string, };
-    const variableParams = Object.entries(constructedVariables).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join("&");
-    console.log(dynamicUrl);
-    const dynamicUrl = `${dashboardUrl}?${variableParams}`;
+    const dashboardUrl = store.dashboardUrl || `https://newrelic.com/store/${store.storeNumber}`;
     window.open(dashboardUrl, "_blank"); // Open in a new tab
   }
 
@@ -162,102 +62,171 @@ export default class HomeNerdlet extends React.Component {
     this.setState({ hoveredStore: null });
   }
 
+  getStoreIcon(percentage) {
+    if (percentage >= 80) {
+      return iconGreen;  // Green for percentages >= 80
+    } else if (percentage >= 50) {
+      return iconYellow; // Yellow for percentages between 50 and 79
+    } else {
+      return iconRed;    // Red for percentages below 50
+    }
+  }
+
+  calculatePercentage(store) {
+    const details = this.getStoreDetails(store); // Ensure this gets the correct store data
+    if (!details || !details.facets) return 0; // Handle the case where details or facets are missing
+    
+    let onlineCount = 0;
+    let offlineCount = 0;
+
+    // Sum the counts based on the presence of online/offline attributes
+    details.facets.forEach((facet) => {
+      if (facet.online === "Online") {
+        onlineCount += facet.results.uniqueCount; // Add to the online count
+      } else if (facet.offline === "Offline") {
+        offlineCount += facet.results.uniqueCount; // Add to the offline count
+      }
+    });
+    const totalCount = onlineCount + offlineCount;
+
+    // Log the total count for debugging
+    console.log('Total Count:', totalCount);
+
+    // Calculate and return the percentage
+    return totalCount > 0 ? (onlineCount / totalCount) * 100 : 0;
+}
+
+  fetchPerformanceMetrics(storeNumber) {
+    const query = `SELECT average(duration) as 'Response Time', count(*) as 'Incident Count' 
+                   FROM Transaction WHERE storeNumber = '${storeNumber}' SINCE 30 minutes ago`;
+    NrqlQuery.query({ accountId: 6248776, query }) // Replace YOUR_ACCOUNT_ID with your actual New Relic account ID
+      .then((response) => {
+        if (response?.data?.[0]) {
+          this.setState({ nrqlData: response.data[0].data[0] });
+        } else {
+          this.setState({ nrqlData: null });
+        }
+      })
+      .catch((error) => {
+        console.error("NRQL query failed:", error);
+        this.setState({ nrqlData: null });
+      });
+  }
+
   render() {
-    const { searchStoreId, selectedType, selectedStore, hoveredStore, mousePosition, storesData } = this.state;
+    const { searchStoreId, selectedType, selectedStore, hoveredStore, mousePosition, results, filterHealthScore, nrqlData } = this.state;
     const defaultMapCenter = [37.7749, -122.4194];
 
-    // Filter stores based on searchStoreId or selectedType
-    const filteredResults = storesData.filter((store) => {
+    const filteredResults = results.filter((store) => {
       const matchesId = searchStoreId ? String(store.storeNumber) === String(searchStoreId) : true;
       const matchesType = selectedType ? store.typeCode === selectedType : true;
-      return matchesId && matchesType;
+      const matchesHealth = filterHealthScore ? store.healthScore >= parseInt(filterHealthScore) : true;
+      return matchesId && matchesType && matchesHealth;
     });
 
     return (
-      <div className="dashboard-container" style={{ display: "flex", flexDirection: "column"}}>
+      <div className="dashboard-container" style={{ display: "flex", flexDirection: "column" }}>
         <div className="filters" style={{ display: "flex", padding: "10px", borderBottom: "1px solid #ccc" }}>
-          {/* Search Box for Store ID */}
           <TextField
             placeholder="Enter Store ID (e.g., 2221)"
             onChange={(event) => this.setState({ searchStoreId: event.target.value.trim() })}
-            onKeyPress={(event) => {
-              if (event.key === "Enter") this.handleStoreSelection(searchStoreId);
-            }}
           />
-
-          {/* Store Type Dropdown */}
           <Select
             value={selectedType}
             onChange={(event, value) => this.setState({ selectedType: value })}
             placeholder="Filter by Store Type"
           >
             <SelectItem value="">All Types</SelectItem>
+            <SelectItem value="RE">Retail</SelectItem>
             <SelectItem value="FL">Full Line</SelectItem>
             <SelectItem value="RK">Rack</SelectItem>
-            <SelectItem value="VS">Virtual Store Express</SelectItem>
-            <SelectItem value="NL">Local</SelectItem>
             <SelectItem value="DC">Distribution Center</SelectItem>
-            <SelectItem value="HQ">Headquarters</SelectItem>
-            <SelectItem value="CO">Contact Center</SelectItem>
-            <SelectItem value="WH">Warehouse</SelectItem>
-            <SelectItem value="EX">Expense</SelectItem>
+          </Select>
+          <Select
+            value={filterHealthScore}
+            onChange={(event, value) => this.setState({ filterHealthScore: value })}
+            placeholder="Filter by Health Score"
+          >
+            <SelectItem value="">All Scores</SelectItem>
+            <SelectItem value="80">80 and above</SelectItem>
+            <SelectItem value="50">50 and above</SelectItem>
+            <SelectItem value="30">30 and above</SelectItem>
           </Select>
         </div>
 
-        <div style={{ display: "flex", flex: 1}}>
-          {/* Sidebar */}
-          <div className="sidebar" style={{ width: "170px", padding: "10px", borderRight: "5px solid #ccc"}}>
-            <h3>Store Overview</h3>
+        <div style={{ display: "flex", flex: 1 }}>
+          <div className="sidebar" style={{ width: "300px", padding: "10px", borderRight: "1px solid #ccc" }}>
+            <h2>Store Overview</h2>
             {filteredResults.map((store, i) => (
               <div key={i} style={{ margin: "10px 0", padding: "10px", border: "1px solid #eee", borderRadius: "5px" }}>
                 <strong>{store.name}</strong>
-                <p><strong>Store #:</strong>{store.storeNumber}</p>
-                <p><strong>Type:</strong> {store.typeDesc}</p>
-                <p><strong>Address:</strong> {store.postalAddress.stdzdLine1Text}, {store.postalAddress.stdzdCityName}, {store.postalAddress.origStateCode}</p>
+                <p>Store #: {store.storeNumber}</p>
+                <p>Type: {store.typeDesc}</p>
+                <p>Health: {store.healthScore}</p>
               </div>
             ))}
           </div>
 
-          {/* Map with Store Data */}
           <div style={{ flex: 1 }}>
-            <Map center={defaultMapCenter} zoom={3} style={{ height: "100vh", width: "100%", backgroundColor: "#000" }}>
+            <Map center={defaultMapCenter} zoom={3} style={{ height: "100vh", width: "100%" }}>
               <TileLayer
                 attribution="&copy OpenStreetMap contributors"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {filteredResults.map((store, i) => (
-                    <Marker
-                      key={i}
-                      position={[store.postalAddress.latitude, store.postalAddress.longitude]}
-                      icon={store?.storeIcon}
-                      eventHandlers={{
-                        onClick: () => this.handleMarkerClick(store),// Open New Relic dashboard
-                        onMouseOver: (event) => this.handleMouseOver(store, event),
-                        onMouseOut: () => this.handleMouseOut(),
-                      }}
-                    >
-                      <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
-                        <div>
-                          <strong>{store?.name}</strong>                          <br />
-                          Store #: {store?.storeNumber}                           <br />
-                          POS Availabilty: {store.uptimePercentage}%
-                        </div>
-                      </Tooltip>
-                    </Marker>
-                ))}
+              {filteredResults.map((store, i) => {
+                // const percentage = this.calculatePercentage(store);
+                const percentage = 72;
+                const icon = this.getStoreIcon(percentage);
+
+                return (
+                  <Marker
+                    key={i}
+                    position={[store.postalAddress.latitude, store.postalAddress.longitude]}
+                    icon={icon}
+                    eventHandlers={{
+                      click: () => this.handleMarkerClick(store),
+                      mouseover: (event) => this.handleMouseOver(store, event),
+                      mouseout: () => this.handleMouseOut(),
+                    }}
+                  >
+                    <Tooltip direction="top" offset={[0, -10]} opacity={1} permanent={false}>
+                      <div>
+                        <strong>{store.name}</strong>
+                        <br />
+                        Store Number: {store.storeNumber}
+                        <br />
+                        Health Score: {store.healthScore}
+                        <br />
+                        Type: {store.typeDesc}
+                        <br />
+                        Uptime: {percentage.toFixed(2)}%
+                      </div>
+                    </Tooltip>
+                  </Marker>
+                );
+              })}
             </Map>
           </div>
 
-          {/* Display Store Details */}
-          <div className="metrics-panel" style={{ width: "300px", padding: "10px", borderLeft: "5px solid #ccc" }}>
-            <h3>Performance Metrics</h3>
-         { filteredResults.map((store, i) => (
-          <TableChart
-            key={i}
-            accountId={2828326}
-            query={`from StoreVHQDeviceSample SELECT uniqueCount(serialNumber)  WHERE store = '${store?.storeNumber}' FACET store, CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX`}
-          />
-          ))}
+          {/* Metrics Panel */}
+          <div className="metrics-panel" style={{ width: "300px", padding: "10px", borderLeft: "1px solid #ccc" }}>
+            <h2>Performance Metrics</h2>
+            {selectedStore ? (
+              <div>
+                <p><strong>Store:</strong> {selectedStore.name}</p>
+                <p><strong>Health Score:</strong> {selectedStore.healthScore}</p>
+                {nrqlData ? (
+                  <>
+                    <p><strong>Response Time:</strong> {nrqlData['Response Time'] || 'N/A'} ms</p>
+                    <p><strong>Incident Count:</strong> {nrqlData['Incident Count'] || 0}</p>
+                  </>
+                ) : (
+                  <BlockText>Loading performance metrics...</BlockText>
+                )}
+              </div>
+            ) : (
+              <BlockText>No store selected. Click on a store marker to view details.</BlockText>
+            )}
           </div>
         </div>
       </div>
