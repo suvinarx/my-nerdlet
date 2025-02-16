@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart } from "nr1";
+import { PieChart, Button } from "nr1";
 
 const PerformanceMetrics = ({ selectedStore }) => {
 
@@ -10,11 +10,15 @@ const PerformanceMetrics = ({ selectedStore }) => {
                 {
                     selectedStore?.storeNumber
                         ?
-                        <PieChart
-                            accountIds={[6248776]}
-                            query={`FROM StoreVHQDeviceSample SELECT uniqueCount(serialNumber) AS 'POS' WHERE store = ${selectedStore?.storeNumber} FACET store, CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX`}
-                            fullHeight
-                        />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+                            <PieChart
+                                accountIds={[6248776]}
+                                query={`FROM StoreVHQDeviceSample SELECT uniqueCount(serialNumber) AS 'POS' WHERE store = ${selectedStore?.storeNumber} FACET store, CASES(WHERE deviceStatus = 'Active' AS 'Online', WHERE deviceStatus = 'Inactive' AS 'Offline') SINCE 1 day ago LIMIT MAX`}
+                                fullHeight
+                            />
+                            <Button onClick={() => {}} style={{ width: "100%", marginTop: '10px' }}>View more details</Button>
+                        </div>
                         :
                         <div style={{ height: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <h4>Please select the store</h4>
