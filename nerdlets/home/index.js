@@ -1,13 +1,14 @@
+
 import L, { Browser } from "leaflet";
 import React from "react";
 import storeData from "./data.json"; // Store list
-import storeDetails from "./store_details.json"; // Store performance data
+import storeDetails from "./store_details1.json"; // Store performance data
 import { Map, Marker, TileLayer, Tooltip } from "react-leaflet";
 import { TextField, Select, SelectItem, BlockText, TableChart, NerdGraphQuery, NrqlQuery } from "nr1";
 
 // Custom store icons
-import storeIconRed from '../icon/red.png';
 import storeIconGreen from '../icon/green.png';
+import storeIconRed from '../icon/red.png';
 import storeIconYellow from '../icon/yellow.png';
 import PerformanceMetrics from "../components/PerformanceMetrics";
 
@@ -21,12 +22,12 @@ export default class HomeNerdlet extends React.Component {
         this.state = {
             searchStoreId: '',
             selectedType: '',
+            selectedColor: '',
             selectedStore: null,
             hoveredStore: null,
             mousePosition: { x: 0, y: 0 },
             results: storeData.length > 0 ? storeData : [],
             filtered: props.mapLocations || [],
-            filterHealthScore: '',
             nrqlData: null,
             storesData: storeData.length > 0 ? storeData : [], // New state for processed store data
         };
@@ -43,7 +44,9 @@ export default class HomeNerdlet extends React.Component {
 
         // Group facets by store number and calculate percentages
         facetsData.forEach(facet => {
-            const storeNumber = facet.name;
+            const storeNumber = facet.name[0];
+            const status = facet.name[1];
+            const uniqueCount = facet.results[0]?.uniqueCount || 0;
 
             if (!uptimeMap[storeNumber]) {
                 uptimeMap[storeNumber] = {
@@ -52,34 +55,34 @@ export default class HomeNerdlet extends React.Component {
                 };
             }
 
-            if (facet.online === "Online") {
-                uptimeMap[storeNumber].online = facet.results.uniqueCount;
-            } else if (facet.offline === "Offline") {
-                uptimeMap[storeNumber].offline = facet.results.uniqueCount;
+            if (status === "Online") {
+                uptimeMap[storeNumber].online = uniqueCount;
+            } else if (status === "Offline") {
+                uptimeMap[storeNumber].offline = uniqueCount;
             }
         });
 
         // Calculate uptime percentage and add to store data
         const updatedStores = stores.map(store => {
-            const storeStats = uptimeMap[store.storeNumber];
-            let uptimePercentage = 0;
-
-            if (storeStats) {
-                const total = storeStats.online + storeStats.offline;
-                uptimePercentage = total > 0 ? (storeStats.online / total) * 100 : 0;
-            }
+            const { online = 0, offline = 0 } = uptimeMap[store.storeNumber] || {};
+            const total = online + offline;
+            const uptimePercentage = total > 0 ? (online / total) * 100 : 0;
+            const roundedUptime = parseFloat(uptimePercentage.toFixed(2));
 
             return {
                 ...store,
-                uptimePercentage: parseFloat(uptimePercentage.toFixed(2)),
-                storeIcon: this.getStoreIcon(parseFloat(uptimePercentage.toFixed(2)))
+                uptimePercentage: roundedUptime,
+                storeIcon: this.getStoreIcon(roundedUptime),
+                storeIconColor: roundedUptime <= 50 ? 'RED' : roundedUptime <= 80 ? 'YELLOW' : 'GREEN'
             };
         });
+
         return updatedStores;
     }
 
     getStoreIcon(percentage) {
-        if (percentage <= 40) return iconRed;
+        // if (percentage === 0) return iconBlack;
+        if (percentage <= 50) return iconRed;
         if (percentage <= 80) return iconYellow;
         return iconGreen;
     }
@@ -102,7 +105,7 @@ export default class HomeNerdlet extends React.Component {
     }
 
     handleMarkerClick(store) {
-        const dashboardUrl = store.dashboardUrl || `https://one.newrelic.com/dashboards/detail/MzgxNDgyOXxWSVp8REFTSEJPQVJEfGRhOjU3Njk4Mjc`;
+        const dashboardUrl = store.dashboardUrl || `https://one.newrelic.com/dashboards/detail/MzgxNDgyOXxWSVp8REFTSEJPQVJE`;
         const variables = {
             "name": "select_site_name",
             "items": null,
@@ -129,32 +132,27 @@ export default class HomeNerdlet extends React.Component {
             mousePosition: { x: event.clientX, y: event.clientY },
         });
     }
+
     handleMouseOut() {
         this.setState({ hoveredStore: null });
     }
 
-    calculatePercentage(storeNumber) {
-        const details = this.getStoreDetails(1);
-        const uniqueCount = details?.results?.uniqueCount || 0;
-        const totalCount = details?.totalResult?.uniqueCount || 1;
-        return (uniqueCount / totalCount) * 100;
-    }
-
     render() {
-        const { searchStoreId, selectedType, selectedStore, hoveredStore, mousePosition, storesData, filterHealthScore } = this.state;
+        const { searchStoreId, selectedType, selectedStore, selectedColor, mousePosition, storesData } = this.state;
         const defaultMapCenter = [37.7749, -122.4194];
 
         // Filter stores based on searchStoreId or selectedType
         const filteredResults = storesData.filter((store) => {
             const matchesId = searchStoreId ? String(store.storeNumber) === String(searchStoreId) : true;
             const matchesType = selectedType ? store.typeCode === selectedType : true;
-            const matchesHealth = filterHealthScore ? store.healthScore >= parseInt(filterHealthScore) : true;
+            const matchesHealth = selectedColor ? store.storeIconColor === selectedColor : true;
+
             return matchesId && matchesType && matchesHealth;
         });
 
         return (
             <div className="dashboard-container" style={{ display: "flex", flexDirection: "column" }}>
-                <div className="filters" style={{ display: "flex", padding: "10px", borderBottom: "1px solid #ccc" }}>
+                <div className="filters" style={{ display: "flex", padding: "10px", borderBottom: "1px solid #ccc", gap: '10px' }}>
                     {/* Search Box for Store ID */}
                     <TextField
                         placeholder="Enter Store ID (e.g., 2221)"
@@ -174,30 +172,29 @@ export default class HomeNerdlet extends React.Component {
                         <SelectItem value="FL">Full Line</SelectItem>
                         <SelectItem value="RK">Rack</SelectItem>
                         <SelectItem value="VS">Virtual Store Express</SelectItem>
-                        <SelectItem value="NL"> Local</SelectItem>
+                        <SelectItem value="NL">Local</SelectItem>
                         <SelectItem value="DC">Distribution Center</SelectItem>
                         <SelectItem value="HQ">Headquarters</SelectItem>
                         <SelectItem value="CO">Contact Center</SelectItem>
                         <SelectItem value="WH">Warehouse</SelectItem>
                         <SelectItem value="EX">Expense</SelectItem>
                     </Select>
-
+                    {/* Store Type Dropdown */}
                     <Select
-                        value={filterHealthScore}
-                        onChange={(event, value) => this.setState({ filterHealthScore: value })}
+                        value={selectedColor}
+                        onChange={(event, value) => this.setState({ selectedColor: value })}
                         placeholder="Filter by Health Status"
                     >
                         <SelectItem value="">All</SelectItem>
-                        <SelectItem value="80">Green</SelectItem>
-                        <SelectItem value="50">Yellow</SelectItem>
-                        <SelectItem value="30">Red</SelectItem>
+                        <SelectItem value="GREEN">Green</SelectItem>
+                        <SelectItem value="YELLOW">Yellow</SelectItem>
+                        <SelectItem value="RED">Red</SelectItem>
                     </Select>
-
                 </div>
 
                 <div style={{ display: "flex", flex: 1 }}>
                     { /* Sidebar */}
-                    <div className="sidebar" style={{ padding: "10px", borderRight: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
+                    <div className="sidebar" style={{ width: "170px", padding: "10px", borderRight: "1px solid #ccc", height: "100vh", overflowY: "auto" }}>
                         <h3>Store Overview</h3>
                         {filteredResults.map((store, i) => (
                             <div
@@ -217,7 +214,7 @@ export default class HomeNerdlet extends React.Component {
                     <div style={{ flex: 1 }}>
                         <Map center={defaultMapCenter} zoom={3} style={{ height: "100vh", width: "100%" }}>
                             <TileLayer
-                                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                attribution='&amp;OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             {
@@ -247,27 +244,6 @@ export default class HomeNerdlet extends React.Component {
 
                     <PerformanceMetrics selectedStore={selectedStore} />
 
-                    {/* Hovered Store Details */}
-                    {hoveredStore && (
-                        <div
-                            className="hovered-store-tooltip"
-                            style={{
-                                position: "absolute",
-                                top: `${mousePosition.y + 10}px`,
-                                left: `${mousePosition.x + 10}px`,
-                                backgroundColor: "rgba(0, 0, 0, 0.8)",
-                                color: "white",
-                                padding: "10px",
-                                borderRadius: "5px",
-                                zIndex: 1000,
-                            }}
-                        >
-                            <strong>{hoveredStore.name}</strong>  <br />
-                            Store #: {hoveredStore.storeNumber}   <br />
-                            POS Availabilty: {hoveredStore.calculatePercentage(storeNumber)}  <br />
-                            Type: {hoveredStore.typeDesc}
-                        </div>
-                    )}
                 </div>
             </div>
         );
